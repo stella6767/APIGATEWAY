@@ -26,6 +26,8 @@ spring:
           predicates:
             - Path=/first-service/**
           filters:
+              - RemoveRequestHeader=Cookie
+              - RewritePath=/first-service/(?<segment>.*), /$\{segment}
 #            - AddRequestHeader=first-request, first-requests-header2
 #            - AddResponseHeader=first-response, first-response-header2
               - name: CustomFilter
