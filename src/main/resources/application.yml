@@ -12,6 +12,11 @@ eureka:
 spring:
   application:
     name: apigateway
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: username
+    password: password
   cloud:
     gateway: #  Netty ??? ?? ???? ??
       default-filters:
@@ -41,4 +46,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httptrace, info  #refresh ? ??? cloud config env ? ??
+        include: refresh, health, beans, httptrace, info, busrefresh  #refresh ? ??? cloud config env ? ??
