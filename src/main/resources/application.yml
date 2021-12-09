@@ -7,6 +7,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+# global filter -> custom filter -> logging filter
 
 spring:
   application:
@@ -27,4 +28,9 @@ spring:
           filters:
 #            - AddRequestHeader=first-request, first-requests-header2
 #            - AddResponseHeader=first-response, first-response-header2
-              - CustomFilter
+              - name: CustomFilter
+              - name: LoggingFilter
+                args:
+                  baseMsg: Hi
+                  preLogger: true
+                  postLogger: true
