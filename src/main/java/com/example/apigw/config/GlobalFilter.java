@@ -6,18 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
-public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Config> {
+public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Config> {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalFilter.class);
 
-    public CustomFilter() {
+    public GlobalFilter() {
 
         super(Config.class);
     }
@@ -30,18 +29,29 @@ public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Conf
             ServerHttpRequest request = exchange.getRequest();  //reactive import!
             ServerHttpResponse response = exchange.getResponse();
 
-            logger.info("Custom PRE Filter: request id -> {}", request.getId());
+            logger.info("Global Filter: bassMsg -> {}", config.getBaseMsg());
+
+            if (config.isPreLogger()){
+                logger.info("Global filter start: request id -< {}", request.getId());
+            }
 
             //Custom Post Filter
             return chain.filter(exchange).then(Mono.fromRunnable(()->{
-                logger.info("Custom POST Filter: request code -> {}", response.getStatusCode());
+
+                if (config.isPostLogger()){
+                    logger.info("Global filter end: response code->{}", response.getStatusCode());
+                }
+
             }));
         };
     }
 
 
+    @Data
     public static class Config {
-
+        private String baseMsg;
+        private boolean preLogger;
+        private boolean postLogger;
 
     }
 
