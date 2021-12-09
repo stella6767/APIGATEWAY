@@ -36,3 +36,9 @@ spring:
                   baseMsg: Hi
                   preLogger: true
                   postLogger: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, info  #refresh ? ??? cloud config env ? ??

@@ -1,0 +1,5 @@
+spring: #bootstrap.yml 은 application.yml 보다 우선순위가 높다.
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888 #cloud-config-server 주소 등록
+      name: myenv-dev #파일명
